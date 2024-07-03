@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Details Management</title>
+</head>
+<body>
+  <h1>User Details Management</h1>
+  <p>Name:
+    <input type="text" placeholder="Enter Your Name:" id="name">
+  </p>
+  <p>Email:
+    <input type="text" placeholder="Enter Your Email:" id="email">
+  </p>
+  <p>PhoneNo:
+    <input type="text" placeholder="Enter Your Phone No" id="phone">
+  </p>
+  <p>
+    Select User to Modify:
+    <select id="userSelect">
+      <option value="" disabled selected>Select a user</option>
+    </select>
+  </p>
+  <button onclick="addUser()">Add User</button>
+  <button onclick="modifyUser()">Modify User</button>
+  <button onclick="readUsers()">Show All Users</button>
+  <button onclick="clearAll()">Clear All</button>
+  
+  <script>
+    let users = [];
+
+    function addUser() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      if (name && email && phone) {
+        users.push({ name: name, email: email, phone: phone });
+        updateUserSelect();
+        alert('User added successfully');
+        console.log('User added:', users);
+      } else {
+        alert('Please fill in all fields');
+      }
+      clearFields();
+    }
+
+    function modifyUser() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const userSelect = document.getElementById('userSelect').value;
+
+      if (name && email && phone && userSelect !== '') {
+        users[userSelect] = { name: name, email: email, phone: phone };
+        alert('User modified successfully');
+        console.log('User modified:', users);
+      } else {
+        alert('Please fill in all fields and select a user');
+      }
+      clearFields();
+    }
+
+    function readUsers() {
+      for (let i = 0; i < users.length; i++) {
+        console.log(`User ${i + 1}: Name: ${users[i].name}, Email: ${users[i].email}, Phone No: ${users[i].phone}`);
+      }
+    }
+
+    function clearAll() {
+      users = [];
+      updateUserSelect();
+      alert('All users have been cleared');
+      console.log('All users cleared:', users);
+    }
+
+    function clearFields() {
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('userSelect').selectedIndex = 0;
+    }
+
+    function updateUserSelect() {
+      const userSelect = document.getElementById('userSelect');
+      userSelect.innerHTML = '<option value="" disabled selected>Select a user</option>';
+      for (let i = 0; i < users.length; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.text = `User ${i + 1}: ${users[i].name}`;
+        userSelect.add(option);
+      }
+    }
+  </script>
+</body>
+</html>
